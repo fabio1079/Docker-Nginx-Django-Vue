@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  todoback:
+    build:
+      context: ./todoback
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000"
+    volumes:
+      - ./todoback/staticfiles:/todoback/staticfiles
+    command: gunicorn todoback.wsgi -b 0.0.0.0:8000
+
+  nginx:
+    image: nginx:1.15
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./todoback/staticfiles:/usr/share/nginx/html/staticfiles
+    depends_on:
+      - todoback
