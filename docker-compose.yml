@@ -12,12 +12,11 @@ services:
     command: gunicorn todoback.wsgi -b 0.0.0.0:8000
 
   nginx:
-    image: nginx:1.15
+    build: ./nginx/
     restart: always
     ports:
       - 80:80
     volumes:
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
       - ./todoback/staticfiles:/usr/share/nginx/html/staticfiles
     depends_on:
       - todoback
