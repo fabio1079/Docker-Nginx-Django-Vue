@@ -12,7 +12,9 @@ services:
     command: gunicorn todoback.wsgi -b 0.0.0.0:8000
 
   nginx:
-    build: ./nginx/
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
     restart: always
     ports:
       - 80:80
